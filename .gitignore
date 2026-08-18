@@ -1,0 +1,8 @@
+api/.env
+api/seed
+
+client_web/.env
+client_web/node_modules
+
+crm/.env
+crm/node_modules

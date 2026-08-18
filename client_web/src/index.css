@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .neo-shadow-sm { box-shadow: 4px 4px 0px 0px #1A1A1A; }
+  .neo-shadow-md { box-shadow: 8px 8px 0px 0px #1A1A1A; }
+  .neo-border { border: 3px solid #1f1a1c; }
+  .neo-btn { transition: all 0.1s ease; }
+  .neo-btn:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px 0px #1A1A1A; }
+}
+
+body {
+  @apply bg-background text-on-background font-body-md min-h-screen flex flex-col selection:bg-primary-container selection:text-on-primary-container;
+}
