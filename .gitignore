@@ -6,3 +6,4 @@ client_web/node_modules
 
 crm/.env
 crm/node_modules
+api/blog.db
