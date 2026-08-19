@@ -132,7 +132,7 @@ export default function ContentPage() {
             ol: ({ node, ...props }) => <ol className="list-decimal list-outside ml-8 mb-6" {...props} />,
             li: ({ node, ...props }) => <li className="mb-2" {...props} />,
             blockquote: ({ node, ...props }) => <blockquote className="border-l-[6px] border-primary pl-4 py-2 italic bg-surface-variant/30 mb-6 neo-border" {...props} />,
-            pre: ({ node, ...props }) => <pre className="bg-surface-container-lowest neo-border p-4 overflow-x-auto mb-6 text-sm font-label-mono neo-shadow-sm max-w-full" {...props} />,
+            pre: ({ node, ...props }) => <pre className="bg-surface-container-lowest neo-border p-4 overflow-x-auto mb-6 text-sm font-label-mono neo-shadow-sm max-w-[calc(100%-4px)]" {...props} />,
             code: ({ node, inline, className, children, ...props }: any) => {
               return inline ? (
                 <code className="bg-surface-variant px-1.5 py-0.5 font-label-mono text-sm neo-border border-[2px] font-bold break-all" {...props}>
@@ -145,10 +145,10 @@ export default function ContentPage() {
               );
             },
             img: ({ node, ...props }) => (
-              <img className="max-w-full h-auto neo-border neo-shadow-sm my-6" {...props} />
+              <img className="max-w-[calc(100%-4px)] h-auto neo-border neo-shadow-sm my-6" {...props} />
             ),
             iframe: ({ node, ...props }) => (
-              <div className="w-full aspect-video neo-border neo-shadow-md mb-6 overflow-hidden bg-black">
+              <div className="w-full max-w-[calc(100%-4px)] aspect-video neo-border neo-shadow-md mb-6 overflow-hidden bg-black">
                 <iframe className="w-full h-full" {...props} />
               </div>
             )
