@@ -58,7 +58,8 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	c.SetCookie("token", tokenString, int(time.Hour*72/time.Second), "/", "", false, true)
+	c.SetSameSite(http.SameSiteNoneMode)
+	c.SetCookie("token", tokenString, int(time.Hour*72/time.Second), "/", "", true, true)
 
 	c.JSON(http.StatusCreated, gin.H{"message": "User registered successfully", "user_id": user.ID, "role": user.Role})
 }
@@ -93,7 +94,8 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	c.SetCookie("token", tokenString, int(time.Hour*72/time.Second), "/", "", false, true)
+	c.SetSameSite(http.SameSiteNoneMode)
+	c.SetCookie("token", tokenString, int(time.Hour*72/time.Second), "/", "", true, true)
 
 	c.JSON(http.StatusOK, gin.H{"message": "Logged in successfully", "role": user.Role})
 }
@@ -108,6 +110,7 @@ func Me(c *gin.Context) {
 }
 
 func Logout(c *gin.Context) {
-	c.SetCookie("token", "", -1, "/", "", false, true)
+	c.SetSameSite(http.SameSiteNoneMode)
+	c.SetCookie("token", "", -1, "/", "", true, true)
 	c.JSON(http.StatusOK, gin.H{"message": "Logged out successfully"})
 }
