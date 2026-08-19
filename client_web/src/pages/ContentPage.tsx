@@ -73,8 +73,8 @@ export default function ContentPage() {
   }
 
   return (
-    <article className="flex flex-col gap-6">
-      <div className="flex gap-2 mb-2">
+    <article className="flex flex-col gap-6 w-full max-w-full break-words">
+      <div className="flex flex-wrap gap-2 mb-2">
         {content.tags?.split(',').map((tag, idx) => (
           <span key={idx} className="bg-secondary-container text-on-secondary-container px-3 py-1 neo-border text-xs font-label-mono font-bold uppercase">
             {tag.trim()}
@@ -144,6 +144,9 @@ export default function ContentPage() {
                 </code>
               );
             },
+            img: ({ node, ...props }) => (
+              <img className="max-w-full h-auto neo-border neo-shadow-sm my-6" {...props} />
+            ),
             iframe: ({ node, ...props }) => (
               <div className="w-full aspect-video neo-border neo-shadow-md mb-6 overflow-hidden bg-black">
                 <iframe className="w-full h-full" {...props} />

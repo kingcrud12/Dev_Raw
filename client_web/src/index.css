@@ -15,4 +15,5 @@
 
 body {
   @apply bg-background text-on-background font-body-md min-h-screen flex flex-col selection:bg-primary-container selection:text-on-primary-container;
+  overflow-x: hidden;
 }
