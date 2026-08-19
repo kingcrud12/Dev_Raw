@@ -48,6 +48,19 @@ export default function Dashboard() {
     }
   }, [role]);
 
+  useEffect(() => {
+    const handleSelectionChange = () => {
+      if (document.activeElement === textareaRef.current && textareaRef.current) {
+        selectionRef.current = {
+          start: textareaRef.current.selectionStart,
+          end: textareaRef.current.selectionEnd
+        };
+      }
+    };
+    document.addEventListener('selectionchange', handleSelectionChange);
+    return () => document.removeEventListener('selectionchange', handleSelectionChange);
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsUploading(true);
@@ -124,26 +137,13 @@ export default function Dashboard() {
     );
   }
 
-  const updateSelection = () => {
-    if (textareaRef.current) {
-      selectionRef.current = {
-        start: textareaRef.current.selectionStart,
-        end: textareaRef.current.selectionEnd
-      };
-    }
-  };
-
   const insertText = (before: string, after: string = '') => {
     const el = textareaRef.current;
     if (!el) return;
     
-    let start = el.selectionStart;
-    let end = el.selectionEnd;
-
-    if (document.activeElement !== el) {
-      start = selectionRef.current.start;
-      end = selectionRef.current.end;
-    }
+    // On se fie uniquement à la dernière sélection connue (sauvegardée de manière 100% fiable par l'événement natif).
+    const start = selectionRef.current.start;
+    const end = selectionRef.current.end;
 
     const text = description;
     const beforeText = text.substring(0, start);
@@ -185,19 +185,7 @@ export default function Dashboard() {
           </div>
           
           <div className="flex flex-wrap gap-2 mb-2 p-2 bg-surface-variant neo-border items-center">
-            <button type="button" onMouseDown={(e) => { e.preventDefault(); insertText('# ', ''); }} className="px-2 py-1 bg-surface-container-lowest neo-border font-bold hover:bg-primary hover:text-on-primary transition-colors text-sm">H1</button>
-            <button type="button" onMouseDown={(e) => { e.preventDefault(); insertText('## ', ''); }} className="px-2 py-1 bg-surface-container-lowest neo-border font-bold hover:bg-primary hover:text-on-primary transition-colors text-sm">H2</button>
-            <button type="button" onMouseDown={(e) => { e.preventDefault(); insertText('### ', ''); }} className="px-2 py-1 bg-surface-container-lowest neo-border font-bold hover:bg-primary hover:text-on-primary transition-colors text-sm">H3</button>
-            <div className="w-px h-6 bg-on-surface-variant/30 mx-1"></div>
-            <button type="button" onMouseDown={(e) => { e.preventDefault(); insertText('**', '**'); }} className="px-2 py-1 bg-surface-container-lowest neo-border font-bold hover:bg-primary hover:text-on-primary transition-colors text-sm">Gras</button>
-            <button type="button" onMouseDown={(e) => { e.preventDefault(); insertText('*', '*'); }} className="px-2 py-1 bg-surface-container-lowest neo-border italic hover:bg-primary hover:text-on-primary transition-colors text-sm">Italique</button>
-            <div className="w-px h-6 bg-on-surface-variant/30 mx-1"></div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-bold uppercase font-label-mono text-on-surface-variant">Couleur</span>
-              <input type="color" className="w-8 h-8 p-0 border-0 cursor-pointer neo-border" onChange={(e) => insertText(`<span style="color: ${e.target.value}">`, '</span>')} title="Appliquer une couleur au texte sélectionné" />
-            </div>
-            <div className="w-px h-6 bg-on-surface-variant/30 mx-1"></div>
-            <button type="button" onMouseDown={(e) => { e.preventDefault(); insertText('\n```javascript\n', '\n```\n'); }} className="px-2 py-1 bg-surface-container-lowest neo-border font-label-mono text-xs font-bold hover:bg-primary hover:text-on-primary transition-colors">Code</button>
+            <button type="button" onClick={() => insertText('\n```javascript\n', '\n```\n')} className="px-2 py-1 bg-surface-container-lowest neo-border font-label-mono text-xs font-bold hover:bg-primary hover:text-on-primary transition-colors">Code</button>
           </div>
 
           <textarea 
@@ -205,12 +193,7 @@ export default function Dashboard() {
             className="w-full bg-surface-container-lowest neo-border p-2 focus:bg-tertiary-container outline-none resize-y" 
             rows={20} 
             value={description} 
-            onChange={e => setDescription(e.target.value)} 
-            onSelect={updateSelection}
-            onKeyUp={updateSelection}
-            onMouseUp={updateSelection}
-            onBlur={updateSelection}
-            onClick={updateSelection}
+            onChange={e => setDescription(e.target.value)}
             required 
           />
           
