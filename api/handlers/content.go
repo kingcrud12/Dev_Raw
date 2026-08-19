@@ -159,7 +159,10 @@ func UpdateContent(c *gin.Context) {
 		}
 	}
 
-	database.DB.Save(&content)
+	if err := database.DB.Save(&content).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save content to database", "details": err.Error()})
+		return
+	}
 	c.JSON(http.StatusOK, content)
 }
 
