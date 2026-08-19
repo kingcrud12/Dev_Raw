@@ -95,5 +95,5 @@ func main() {
 		protected.DELETE("/contents/:id", handlers.DeleteContent)
 	}
 
-	r.Run(":8080") // Listen and serve on 0.0.0.0:8080
+	r.Run(":8087") // Listen and serve on 0.0.0.0:8080
 }
