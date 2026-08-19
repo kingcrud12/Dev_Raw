@@ -10,6 +10,7 @@ interface Article {
   tags: string;
   readingTime: number;
   imageUrl: string;
+  createdAt: string;
 }
 
 export default function LatestArticles() {
@@ -20,8 +21,16 @@ export default function LatestArticles() {
     const url = import.meta.env.VITE_API_BASE_URL || '/api';
     fetch(`${url}/contents?type=article`)
       .then(res => res.json())
-      .then(data => {
-        setArticles(data || []);
+      .then((data: Article[]) => {
+        const twoWeeksAgo = new Date();
+        twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
+        
+        const recentArticles = (data || [])
+          .filter(article => new Date(article.createdAt) >= twoWeeksAgo)
+          .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+          .slice(0, 3);
+          
+        setArticles(recentArticles);
         setLoading(false);
       })
       .catch(err => {
@@ -37,7 +46,7 @@ export default function LatestArticles() {
       {loading ? (
         <div className="p-8 text-center font-label-mono animate-pulse">Chargement...</div>
       ) : articles.length === 0 ? (
-        <div className="p-8 text-center font-label-mono text-on-surface-variant">Aucun article trouvé.</div>
+        <div className="p-8 text-center font-label-mono text-on-surface-variant">Aucun article publié récemment (moins de 2 semaines).</div>
       ) : (
         articles.map((article) => (
           <Link key={article.id} to={`/articles/${article.slug}`} className="block outline-none focus:ring-4 focus:ring-primary">

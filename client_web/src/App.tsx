@@ -9,6 +9,7 @@ import GuidesPage from "./pages/GuidesPage";
 import TutorialsPage from "./pages/TutorialsPage";
 import NewsletterPage from "./pages/NewsletterPage";
 import ContentPage from "./pages/ContentPage";
+import TagPage from "./pages/TagPage";
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
             <Route path="/articles/:slug" element={<ContentPage />} />
             <Route path="/guides/:slug" element={<ContentPage />} />
             <Route path="/tutoriels/:slug" element={<ContentPage />} />
+            <Route path="/tags/:tag" element={<TagPage />} />
             <Route path="*" element={<HomePage />} />
           </Routes>
         </main>

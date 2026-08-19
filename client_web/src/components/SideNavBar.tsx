@@ -25,19 +25,19 @@ export default function SideNavBar() {
           <span className="material-symbols-outlined">article</span>
           Derniers Articles
         </NavLink>
-        <NavLink className={getNavClass} to="/populaire">
+        <NavLink className={getNavClass} to="/tags/populaire">
           <span className="material-symbols-outlined">trending_up</span>
           Populaire
         </NavLink>
-        <NavLink className={getNavClass} to="/architecture">
+        <NavLink className={getNavClass} to="/tags/architecture">
           <span className="material-symbols-outlined">architecture</span>
           Architecture Système
         </NavLink>
-        <NavLink className={getNavClass} to="/rust-go">
+        <NavLink className={getNavClass} to="/tags/rust-go">
           <span className="material-symbols-outlined">terminal</span>
           Rust & Go
         </NavLink>
-        <NavLink className={getNavClass} to="/open-source">
+        <NavLink className={getNavClass} to="/tags/open-source">
           <span className="material-symbols-outlined">code</span>
           Open Source
         </NavLink>
