@@ -16,7 +16,8 @@ export default function GuidesPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/contents?type=guide')
+    const url = import.meta.env.VITE_API_BASE_URL || '/api';
+    fetch(`${url}/contents?type=guide`)
       .then(res => res.json())
       .then(data => {
         setGuides(data || []);

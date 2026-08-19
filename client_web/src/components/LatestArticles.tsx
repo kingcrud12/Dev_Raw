@@ -17,7 +17,8 @@ export default function LatestArticles() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/contents?type=article')
+    const url = import.meta.env.VITE_API_BASE_URL || '/api';
+    fetch(`${url}/contents?type=article`)
       .then(res => res.json())
       .then(data => {
         setArticles(data || []);

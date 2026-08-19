@@ -16,7 +16,8 @@ export default function TutorialsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/contents?type=tutorial')
+    const url = import.meta.env.VITE_API_BASE_URL || '/api';
+    fetch(`${url}/contents?type=tutorial`)
       .then(res => res.json())
       .then(data => {
         setTutorials(data || []);
