@@ -6,6 +6,17 @@ Mais qu'est-ce que c'est réellement ? Pourquoi l'économie numérique entière 
 
 ---
 
+## Sommaire
+1. [Qu'est-ce qu'une API ? (Le concept fondamental)](#1-quest-ce-quune-api--le-concept-fondamental)
+2. [Pourquoi les API dirigent-elles le monde ?](#2-pourquoi-les-api-dirigent-elles-le-monde-)
+3. [Les API Web : Le standard d'Internet](#3-les-api-web--le-standard-dinternet)
+4. [Au-delà du Web : Les autres types d'API](#4-au-del-du-web--les-autres-types-dapi)
+5. [La culture API pour les profils "Non-Tech"](#5-la-culture-api-pour-les-profils-non-tech)
+6. [Mettre les mains dans le cambouis : Postman](#6-mettre-les-mains-dans-le-cambouis--postman)
+7. [Foire aux Questions (Pour aller plus loin)](#7-foire-aux-questions-pour-aller-plus-loin)
+
+---
+
 ## 1. Qu'est-ce qu'une API ? (Le concept fondamental)
 
 **API** signifie *Application Programming Interface* (Interface de Programmation d'Application). C'est un pont, un traducteur qui permet à deux logiciels distincts de se parler, d'échanger des données et des ordres, sans avoir besoin de comprendre comment l'autre a été fabriqué à l'intérieur.
@@ -91,6 +102,24 @@ Au lieu de taper `www.google.com` et d'afficher une jolie page web, vous tapez l
 ### Le concept de "Clé API" (API Key)
 Évidemment, on ne laisse pas n'importe qui supprimer des utilisateurs dans une base de données. 
 Pour prouver qui vous êtes à une API fermée, vous devez envoyer un badge secret à chaque requête. Ce badge s'appelle une **API Key** (Clé API) ou un **Token Bearer**. C'est un long mot de passe que l'on glisse dans les "En-têtes" (Headers) de la requête Postman pour dire au serveur : *"Je suis autorisé à faire ça"*.
+
+---
+
+## 7. Foire aux Questions (Pour aller plus loin)
+
+Pour vérifier que vous avez bien compris les concepts de ce guide, voici quelques questions de réflexion. Prenez le temps d'y penser avant de lire la réponse !
+
+**Q1. Si je crée un site web pour ma boulangerie qui affiche juste les horaires d'ouverture et des photos, ai-je besoin d'une API ?**
+> **Réponse :** Non. Si le site ne fait qu'afficher des informations statiques sans chercher des données depuis un autre système, une API est inutile. En revanche, si vous ajoutez un module de réservation en ligne ou de paiement, là, vous utiliserez l'API de Stripe ou de votre logiciel de réservation.
+
+**Q2. Une API peut-elle tomber "en panne" ? Et que se passe-t-il si c'est le cas ?**
+> **Réponse :** Absolument. L'API tourne sur des serveurs physiques. Si l'API de Google Maps tombe en panne, l'application Uber ne pourra plus afficher la carte. C'est le risque de l'économie des API : une dépendance en chaîne. Si un maillon lâche, les services qui s'y connectent souffrent.
+
+**Q3. Dans l'analogie du restaurant, si le serveur m'apporte la mauvaise commande, à qui la faute : au REST ou au Backend ?**
+> **Réponse :** À la cuisine (le Backend). Le REST n'est que la façon de passer commande. Si la logique métier en cuisine s'est trompée, le serveur (l'API) ne fait que transporter l'erreur. D'où l'importance de bien tester le backend !
+
+**Q4. Pourquoi une banque ne donnerait-elle pas accès à sa base de données complète plutôt que de construire une API ?**
+> **Réponse :** Pour la sécurité absolue. Une API agit comme un guichet blindé : on vérifie votre identité (l'API Key) et le guichetier (l'API) ne vous donne *que* l'argent de votre compte. Donner accès à la base entière reviendrait à laisser le client entrer dans le coffre-fort de la banque.
 
 ---
 

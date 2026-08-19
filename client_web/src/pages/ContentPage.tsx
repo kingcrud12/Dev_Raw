@@ -14,6 +14,22 @@ interface Content {
   readingTime?: number;
 }
 
+const extractText = (children: any): string => {
+  if (!children) return '';
+  if (typeof children === 'string') return children;
+  if (Array.isArray(children)) return children.map(extractText).join('');
+  if (children.props && children.props.children) return extractText(children.props.children);
+  return '';
+};
+
+const slugify = (text: string) => {
+  return text.toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+};
+
 export default function ContentPage() {
   const { slug } = useParams();
   const [content, setContent] = useState<Content | null>(null);
@@ -86,11 +102,32 @@ export default function ContentPage() {
         <ReactMarkdown
           rehypePlugins={[rehypeRaw]}
           components={{
-            h1: ({ node, ...props }) => <h1 className="font-headline-lg text-headline-lg border-b-[3px] border-on-background pb-2 mt-8 mb-4 font-bold" {...props} />,
-            h2: ({ node, ...props }) => <h2 className="font-headline-lg text-headline-lg border-b-[3px] border-on-background pb-2 mt-8 mb-4 font-bold" {...props} />,
-            h3: ({ node, ...props }) => <h3 className="font-headline-md text-headline-md mt-6 mb-3 font-bold" {...props} />,
+            h1: ({ node, children, ...props }) => {
+              const id = slugify(extractText(children));
+              return <h1 id={id} className="font-headline-lg text-headline-lg border-b-[3px] border-on-background pb-2 mt-8 mb-4 font-bold" {...props}>{children}</h1>;
+            },
+            h2: ({ node, children, ...props }) => {
+              const id = slugify(extractText(children));
+              return <h2 id={id} className="font-headline-lg text-headline-lg border-b-[3px] border-on-background pb-2 mt-8 mb-4 font-bold" {...props}>{children}</h2>;
+            },
+            h3: ({ node, children, ...props }) => {
+              const id = slugify(extractText(children));
+              return <h3 id={id} className="font-headline-md text-headline-md mt-6 mb-3 font-bold" {...props}>{children}</h3>;
+            },
             p: ({ node, ...props }) => <p className="mb-6 leading-relaxed" {...props} />,
-            a: ({ node, ...props }) => <a className="text-primary underline decoration-[3px] underline-offset-4 hover:bg-primary hover:text-on-primary transition-colors font-bold" target="_blank" rel="noopener noreferrer" {...props} />,
+            a: ({ node, ...props }) => {
+              const isInternal = props.href?.startsWith('#') || props.href?.startsWith('/');
+              if (isInternal && props.href?.startsWith('#')) {
+                return <a className="text-primary underline decoration-[3px] underline-offset-4 hover:bg-primary hover:text-on-primary transition-colors font-bold" href={props.href} onClick={(e) => {
+                  e.preventDefault();
+                  const target = document.getElementById(props.href!.substring(1));
+                  if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }} {...props} />;
+              }
+              return <a className="text-primary underline decoration-[3px] underline-offset-4 hover:bg-primary hover:text-on-primary transition-colors font-bold" target={isInternal ? "_self" : "_blank"} rel={isInternal ? "" : "noopener noreferrer"} {...props} />;
+            },
             ul: ({ node, ...props }) => <ul className="list-disc list-outside ml-8 mb-6" {...props} />,
             ol: ({ node, ...props }) => <ol className="list-decimal list-outside ml-8 mb-6" {...props} />,
             li: ({ node, ...props }) => <li className="mb-2" {...props} />,

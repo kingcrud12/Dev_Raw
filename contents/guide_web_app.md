@@ -6,6 +6,26 @@ Dans ce guide extrêmement détaillé, nous allons décortiquer pas à pas la co
 
 ---
 
+## Sommaire
+- [1. Le Design : L'Identité Visuelle (Néo-Brutalisme)](#1-le-design-lidentite-visuelle-neo-brutalisme)
+  - [A. Les caractéristiques du Néo-Brutalisme](#a-les-caracteristiques-du-neo-brutalisme)
+  - [B. Implémentation technique (Tailwind CSS)](#b-implementation-technique-tailwind-css)
+- [2. Architecture & Base de Données](#2-architecture-base-de-donnees)
+  - [A. L'Architecture Découplée (SPA + API)](#a-larchitecture-decouplee-spa-api)
+  - [B. La Base de Données (SQLite)](#b-la-base-de-donnees-sqlite)
+- [3. Le Développement Backend (Go + Gin)](#3-le-developpement-backend-go-gin)
+  - [A. Le routeur Gin et GORM](#a-le-routeur-gin-et-gorm)
+  - [B. Sécurité : JWT, Cookies et CORS](#b-securite-jwt-cookies-et-cors)
+- [4. Le Développement Frontend (React + Vite)](#4-le-developpement-frontend-react-vite)
+  - [A. Le Rendu du Markdown (Blog)](#a-le-rendu-du-markdown-blog)
+  - [B. L'Interface de Rédaction (CRM)](#b-linterface-de-redaction-crm)
+- [5. Le Déploiement : De Vercel au Serveur Linux (VPS)](#5-le-deploiement-de-vercel-au-serveur-linux-vps)
+  - [A. Déploiement des Frontends (Vercel)](#a-deploiement-des-frontends-vercel)
+  - [B. Déploiement de l'API (Serveur VPS Ubuntu)](#b-deploiement-de-lapi-serveur-vps-ubuntu)
+  - [Conclusion](#conclusion)
+
+---
+
 ## 1. Le Design : L'Identité Visuelle (Néo-Brutalisme)
 
 Avant même d'écrire une ligne de logique, il faut définir l'ADN du projet. Pour se démarquer des designs "Corporate" lisses et arrondis, nous avons opté pour le **Néo-Brutalisme**.
