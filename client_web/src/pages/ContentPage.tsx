@@ -86,6 +86,7 @@ export default function ContentPage() {
         <ReactMarkdown
           rehypePlugins={[rehypeRaw]}
           components={{
+            h1: ({ node, ...props }) => <h1 className="font-headline-lg text-headline-lg border-b-[3px] border-on-background pb-2 mt-8 mb-4 font-bold" {...props} />,
             h2: ({ node, ...props }) => <h2 className="font-headline-lg text-headline-lg border-b-[3px] border-on-background pb-2 mt-8 mb-4 font-bold" {...props} />,
             h3: ({ node, ...props }) => <h3 className="font-headline-md text-headline-md mt-6 mb-3 font-bold" {...props} />,
             p: ({ node, ...props }) => <p className="mb-6 leading-relaxed" {...props} />,
@@ -113,7 +114,7 @@ export default function ContentPage() {
             )
           }}
         >
-          {content.contentText || content.description}
+          {content.description}
         </ReactMarkdown>
       </div>
     </article>
