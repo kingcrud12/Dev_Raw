@@ -62,7 +62,7 @@ Les humains retiennent mal les adresses IP (ex: `142.250.174.46`). C'est pourquo
 Maintenant que la machine fonctionne et qu'elle est connectée, que se passe-t-il lorsque vous naviguez sur un site web moderne ?
 
 ### La séparation Front-end et Back-end
-Aujourd'hui, une application web complexe (comme Netflix ou un CRM) est divisée en deux parties :
+Aujourd'hui, une application web complexe (comme Netflix ou un CMS) est divisée en deux parties :
 
 1. **Le Frontend (Côté Client) :** C'est ce que vous voyez et avec quoi vous interagissez. Il est construit avec trois langages :
    - **HTML** (La structure : textes, images, formulaires).

@@ -1,6 +1,6 @@
 <div align="center">
-  <h1>Devraw Blog & CRM</h1>
-  <p>Plateforme de blogging au design néo-brutaliste et son outil de gestion de contenu (CRM).</p>
+  <h1>Devraw Blog & CMS</h1>
+  <p>Plateforme de blogging au design néo-brutaliste et son outil de gestion de contenu (CMS).</p>
 </div>
 
 ---
@@ -11,12 +11,12 @@
 
 Il offre :
 - Aux **lecteurs** : Un blog en ligne rapide avec plusieurs sections (Articles, Guides, Tutoriels, Newsletter).
-- Aux **éditeurs** : Un tableau de bord (CRM) sécurisé pour gérer et publier les contenus avec upload d'images.
+- Aux **éditeurs** : Un tableau de bord (CMS) sécurisé pour gérer et publier les contenus avec upload d'images.
 
 ### Stack Technique
 - **Backend :** Golang (Gin, Gorm), base de données SQLite, authentification par JWT (via cookies HttpOnly), upload d'images avec Cloudinary.
 - **Frontend Blog (`client_web`) :** React, TypeScript, Vite, Tailwind CSS.
-- **Frontend CRM (`crm`) :** React, TypeScript, Vite, Tailwind CSS, Axios avec reverse proxy pour la sécurité.
+- **Frontend CMS (`cms`) :** React, TypeScript, Vite, Tailwind CSS, Axios avec reverse proxy pour la sécurité.
 
 ---
 
@@ -53,7 +53,7 @@ Il offre :
    pnpm dev
    ```
 
-4. **Lancer le CRM (Côté Éditeur) :**
+4. **Lancer le CMS (Côté Éditeur) :**
    Depuis la racine du projet :
    ```bash
    cd crm
