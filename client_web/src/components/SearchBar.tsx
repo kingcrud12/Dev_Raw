@@ -74,7 +74,8 @@ export default function SearchBar() {
           className="flex-1 bg-transparent border-none outline-none font-label-mono text-sm px-2 text-on-background placeholder:text-on-surface-variant w-full"
           value={query}
           onChange={(e) => {
-            setQuery(e.target.value);
+            const sanitized = e.target.value.replace(/[<>]/g, '');
+            setQuery(sanitized);
             if (!isExpanded) setIsExpanded(true);
           }}
           onFocus={() => setIsExpanded(true)}

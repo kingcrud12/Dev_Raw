@@ -1,4 +1,12 @@
+import { useState } from 'react';
+
 export default function NewsletterPage() {
+  const [email, setEmail] = useState('');
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const sanitized = e.target.value.replace(/[<>]/g, '');
+    setEmail(sanitized);
+  };
   return (
     <section className="flex flex-col items-center justify-center pt-stack-lg pb-stack-lg h-full min-h-[60vh]">
       <div className="bg-primary-container neo-border p-10 md:p-16 neo-shadow-md flex flex-col gap-6 max-w-2xl w-full text-center relative overflow-hidden">
@@ -24,6 +32,8 @@ export default function NewsletterPage() {
             placeholder="votre.email@exemple.com" 
             type="email" 
             required 
+            value={email}
+            onChange={handleEmailChange}
           />
           <button 
             className="bg-on-background text-surface-container-lowest neo-border px-8 py-4 font-label-mono font-bold uppercase text-lg neo-shadow-sm neo-btn hover:bg-primary transition-colors whitespace-nowrap" 
