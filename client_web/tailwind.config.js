@@ -63,12 +63,12 @@ export default {
               "full": "9999px"
       },
       "spacing": {
-              "stack-sm": "12px",
-              "stack-lg": "48px",
-              "stack-md": "24px",
-              "gutter": "24px",
-              "margin": "32px",
-              "unit": "4px"
+              "stack-sm": "8px",
+              "stack-lg": "24px",
+              "stack-md": "12px",
+              "gutter": "16px",
+              "margin": "16px",
+              "unit": "2px"
       },
       "fontFamily": {
               "headline-lg": ["Space Grotesk", "sans-serif"],
@@ -81,14 +81,14 @@ export default {
               "headline-lg-mobile": ["Space Grotesk", "sans-serif"]
       },
       "fontSize": {
-              "headline-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
-              "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
-              "label-mono": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "500"}],
-              "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
-              "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
-              "headline-xl": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-              "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
-              "headline-lg-mobile": ["36px", {"lineHeight": "1.2", "fontWeight": "700"}]
+              "headline-lg": ["24px", {"lineHeight": "1.3", "letterSpacing": "0", "fontWeight": "600"}],
+              "headline-md": ["21px", {"lineHeight": "1.3", "fontWeight": "600"}],
+              "label-mono": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "500"}],
+              "headline-sm": ["17px", {"lineHeight": "1.3", "fontWeight": "600"}],
+              "body-lg": ["15px", {"lineHeight": "1.5", "fontWeight": "400"}],
+              "headline-xl": ["27px", {"lineHeight": "1.3", "letterSpacing": "0", "fontWeight": "600"}],
+              "body-md": ["13px", {"lineHeight": "1.5", "fontWeight": "400"}],
+              "headline-lg-mobile": ["21px", {"lineHeight": "1.3", "fontWeight": "600"}]
       }
     }
   },

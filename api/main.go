@@ -55,8 +55,10 @@ func main() {
 	// Protected Auth route (for session check)
 	api.GET("/auth/me", middleware.RequireAuth(), handlers.Me)
 
-	// Public Content route
+	// Public Content routes
 	api.GET("/contents", handlers.GetAllContent)
+	api.GET("/contents/:slug", handlers.GetContentBySlug)
+	api.GET("/search", handlers.SearchContent)
 
 	// Protected CRM routes
 	protected := api.Group("/crm")

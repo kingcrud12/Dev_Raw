@@ -9,6 +9,7 @@ interface Content {
   description: string;
   tags?: string;
   imageUrl?: string;
+  readingTime?: number;
 }
 
 export default function Dashboard() {
@@ -21,6 +22,7 @@ export default function Dashboard() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [tags, setTags] = useState('');
+  const [readingTime, setReadingTime] = useState<number>(5);
   const [image, setImage] = useState<File | null>(null);
   const [existingImageUrl, setExistingImageUrl] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -39,7 +41,7 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    if (role === 'editor') {
+    if (role === 'editor' || role === 'admin') {
       fetchContents();
     }
   }, [role]);
@@ -53,6 +55,7 @@ export default function Dashboard() {
     formData.append('title', title);
     formData.append('description', description);
     formData.append('tags', tags);
+    formData.append('readingTime', readingTime.toString());
     if (image) {
       formData.append('image', image);
     }
@@ -81,6 +84,7 @@ export default function Dashboard() {
     setTitle('');
     setDescription('');
     setTags('');
+    setReadingTime(5);
     setImage(null);
     setExistingImageUrl(null);
     setType('article');
@@ -91,6 +95,7 @@ export default function Dashboard() {
     setTitle(c.title);
     setDescription(c.description);
     setTags(c.tags || '');
+    setReadingTime(c.readingTime || 5);
     setType(c.type || 'article');
     setImage(null);
     setExistingImageUrl(c.imageUrl || null);
@@ -105,12 +110,12 @@ export default function Dashboard() {
     }
   };
 
-  if (role !== 'editor') {
+  if (role !== 'editor' && role !== 'admin') {
     return (
       <div className="p-8">
         <div className="bg-error text-on-error p-6 neo-border neo-shadow-md">
           <h2 className="font-bold text-xl mb-2">Accès Refusé</h2>
-          <p>Vous n'avez pas le rôle éditeur pour accéder au CRM. Contactez l'administrateur.</p>
+          <p>Vous n'avez pas le rôle éditeur ou admin pour accéder au CRM. Contactez l'administrateur.</p>
           <button onClick={logout} className="mt-4 bg-background text-on-background px-4 py-2 neo-border">Déconnexion</button>
         </div>
       </div>
@@ -150,6 +155,10 @@ export default function Dashboard() {
               <input className="w-full bg-surface-container-lowest neo-border p-2 focus:bg-tertiary-container outline-none" value={tags} onChange={e => setTags(e.target.value)} placeholder="React, Go, DevOps..." />
             </div>
             <div>
+              <label className="block font-label-mono mb-1">Temps de lecture (minutes)</label>
+              <input type="number" min="1" className="w-full bg-surface-container-lowest neo-border p-2 focus:bg-tertiary-container outline-none" value={readingTime} onChange={e => setReadingTime(parseInt(e.target.value) || 5)} />
+            </div>
+            <div>
               <label className="block font-label-mono mb-1">Image de couverture</label>
               {existingImageUrl && !image && (
                 <div className="mb-2">
@@ -174,7 +183,9 @@ export default function Dashboard() {
 
         {/* List */}
         <div className="lg:col-span-2">
-          <h2 className="font-headline-md font-bold mb-4">Mes Contenus</h2>
+          <h2 className="font-headline-md font-bold mb-4">
+            {role === 'admin' ? 'Tous les Contenus' : 'Mes Contenus'}
+          </h2>
           {error && <div className="bg-error text-on-error p-4 neo-border mb-4">{error}</div>}
           <div className="flex flex-col gap-4">
             {contents.map(c => (

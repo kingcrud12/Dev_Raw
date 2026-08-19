@@ -13,6 +13,7 @@ const (
 type Content struct {
 	Base
 	Type        ContentType `gorm:"index;not null" json:"type"`
+	Slug        string      `gorm:"uniqueIndex;not null" json:"slug"`
 	Title       string      `gorm:"not null" json:"title"`
 	Description string      `json:"description"`
 	ImageUrl    string      `json:"imageUrl"`

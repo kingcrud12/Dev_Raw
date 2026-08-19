@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 interface Guide {
   id: string;
   type: string;
+  slug: string;
   title: string;
   description: string;
   tags: string;
@@ -42,7 +44,8 @@ export default function GuidesPage() {
       ) : (
         <div className="grid grid-cols-1 gap-6">
           {guides.map((guide, idx) => (
-            <article key={guide.id} className={`bg-${['secondary', 'tertiary', 'primary'][idx % 3]}-container neo-border neo-shadow-md p-8 flex flex-col md:flex-row gap-8 items-start group hover:-translate-y-1 transition-transform`}>
+            <Link key={guide.id} to={`/guides/${guide.slug}`} className="block outline-none focus:ring-4 focus:ring-primary">
+              <article className={`bg-${['secondary', 'tertiary', 'primary'][idx % 3]}-container neo-border neo-shadow-md p-8 flex flex-col md:flex-row gap-8 items-start group hover:-translate-y-1 transition-transform`}>
               {guide.imageUrl && (
                 <div className="w-full md:w-64 h-40 bg-surface-container-lowest neo-border overflow-hidden flex-shrink-0">
                   <img className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" src={guide.imageUrl} alt={guide.title} />
@@ -62,7 +65,8 @@ export default function GuidesPage() {
                   Lire le guide
                 </button>
               </div>
-            </article>
+              </article>
+            </Link>
           ))}
         </div>
       )}

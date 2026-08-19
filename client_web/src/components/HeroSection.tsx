@@ -4,7 +4,7 @@ export default function HeroSection() {
       <h1 className="font-headline-lg-mobile md:font-headline-xl text-headline-lg-mobile md:text-headline-xl text-on-background uppercase max-w-4xl">
         CODER.<br />CONSTRUIRE.<br />LIVRER.
       </h1>
-      <div className="w-full h-64 md:h-96 rounded-3xl neo-border neo-shadow-md overflow-hidden relative bg-primary-container">
+      <div className="w-full max-w-[700px] h-48 md:h-64 rounded-xl neo-border neo-shadow-md overflow-hidden relative bg-primary-container">
         <img
           className="w-full h-full object-cover"
           alt="A striking digital installation art piece featuring glowing, generative geometric shapes representing code structures, suspended in a bright, modern space. The artwork relies on a sophisticated palette of deep blacks and pristine whites, punctuated by intense accents of vibrant pink and mint. The mood is high-energy, raw, and technologically advanced."

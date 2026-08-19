@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 interface Article {
   id: string;
   type: string;
+  slug: string;
   title: string;
   description: string;
   tags: string;
@@ -37,7 +39,8 @@ export default function LatestArticles() {
         <div className="p-8 text-center font-label-mono text-on-surface-variant">Aucun article trouvé.</div>
       ) : (
         articles.map((article) => (
-          <article key={article.id} className="bg-surface-container-lowest neo-border neo-shadow-sm p-4 flex flex-col md:flex-row gap-6 group hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_#1A1A1A] transition-all">
+          <Link key={article.id} to={`/articles/${article.slug}`} className="block outline-none focus:ring-4 focus:ring-primary">
+            <article className="bg-surface-container-lowest neo-border neo-shadow-sm p-4 flex flex-col md:flex-row gap-6 group hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_#1A1A1A] transition-all">
             {article.imageUrl && (
               <div className="w-full md:w-48 h-32 bg-primary-container neo-border flex-shrink-0 overflow-hidden">
                 <img className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" src={article.imageUrl} alt={article.title} />
@@ -55,7 +58,8 @@ export default function LatestArticles() {
                 <span className="flex items-center gap-1"><span className="material-symbols-outlined text-sm">schedule</span> {article.readingTime || 5} min</span>
               </div>
             </div>
-          </article>
+            </article>
+          </Link>
         ))
       )}
     </section>

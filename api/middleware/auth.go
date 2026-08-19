@@ -44,8 +44,8 @@ func RequireAuth() gin.HandlerFunc {
 func RequireEditor() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		role, exists := c.Get("userRole")
-		if !exists || role != string(models.RoleEditor) {
-			c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": "Editor privileges required"})
+		if !exists || (role != string(models.RoleEditor) && role != string(models.RoleAdmin)) {
+			c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": "Editor or Admin privileges required"})
 			return
 		}
 		c.Next()

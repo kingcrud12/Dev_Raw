@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 interface Tutorial {
   id: string;
   type: string;
+  slug: string;
   title: string;
   description: string;
   tags: string;
@@ -44,7 +46,8 @@ export default function TutorialsPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {tutorials.map((tutorial, idx) => (
-            <article key={tutorial.id} className="bg-surface-container-lowest neo-border neo-shadow-sm p-6 flex flex-col group hover:shadow-[8px_8px_0px_0px_#1A1A1A] hover:-translate-y-1 transition-all">
+            <Link key={tutorial.id} to={`/tutoriels/${tutorial.slug}`} className="block outline-none focus:ring-4 focus:ring-primary">
+              <article className="bg-surface-container-lowest neo-border neo-shadow-sm p-6 flex flex-col h-full group hover:shadow-[8px_8px_0px_0px_#1A1A1A] hover:-translate-y-1 transition-all">
               <div className={`${getTagColor(idx)} neo-border px-3 py-1 rounded-full text-xs font-label-mono font-bold self-start mb-4 uppercase`}>
                 {tutorial.tags?.split(',')[0] || "TUTORIEL"}
               </div>
@@ -57,7 +60,8 @@ export default function TutorialsPage() {
               <div className="flex items-center gap-2 font-label-mono text-sm text-on-surface-variant border-t-[3px] border-on-background pt-4">
                 <span className="material-symbols-outlined text-sm">schedule</span> {tutorial.readingTime || 5} min de lecture
               </div>
-            </article>
+              </article>
+            </Link>
           ))}
         </div>
       )}
