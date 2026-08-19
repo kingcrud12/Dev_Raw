@@ -73,7 +73,7 @@ export default function ContentPage() {
   }
 
   return (
-    <article className="flex flex-col gap-6 w-full max-w-full break-words">
+    <article className="flex flex-col gap-6 w-full max-w-full min-w-0 break-words">
       <div className="flex flex-wrap gap-2 mb-2">
         {content.tags?.split(',').map((tag, idx) => (
           <span key={idx} className="bg-secondary-container text-on-secondary-container px-3 py-1 neo-border text-xs font-label-mono font-bold uppercase">
@@ -93,12 +93,12 @@ export default function ContentPage() {
       )}
 
       {content.imageUrl && (
-        <div className="w-full max-h-[400px] bg-surface-container-lowest neo-border overflow-hidden my-4">
+        <div className="w-full max-w-full max-h-[400px] bg-surface-container-lowest neo-border overflow-hidden my-4">
           <img src={content.imageUrl} alt={content.title} className="w-full h-full object-cover" />
         </div>
       )}
 
-      <div className="font-body-lg text-body-lg text-on-background leading-relaxed">
+      <div className="font-body-lg text-body-lg text-on-background leading-relaxed min-w-0 max-w-full">
         <ReactMarkdown
           rehypePlugins={[rehypeRaw]}
           components={{
@@ -132,10 +132,10 @@ export default function ContentPage() {
             ol: ({ node, ...props }) => <ol className="list-decimal list-outside ml-8 mb-6" {...props} />,
             li: ({ node, ...props }) => <li className="mb-2" {...props} />,
             blockquote: ({ node, ...props }) => <blockquote className="border-l-[6px] border-primary pl-4 py-2 italic bg-surface-variant/30 mb-6 neo-border" {...props} />,
-            pre: ({ node, ...props }) => <pre className="bg-surface-container-lowest neo-border p-4 overflow-x-auto mb-6 text-sm font-label-mono neo-shadow-sm" {...props} />,
+            pre: ({ node, ...props }) => <pre className="bg-surface-container-lowest neo-border p-4 overflow-x-auto mb-6 text-sm font-label-mono neo-shadow-sm max-w-full" {...props} />,
             code: ({ node, inline, className, children, ...props }: any) => {
               return inline ? (
-                <code className="bg-surface-variant px-1.5 py-0.5 font-label-mono text-sm neo-border border-2 font-bold" {...props}>
+                <code className="bg-surface-variant px-1.5 py-0.5 font-label-mono text-sm neo-border border-[2px] font-bold break-all" {...props}>
                   {children}
                 </code>
               ) : (

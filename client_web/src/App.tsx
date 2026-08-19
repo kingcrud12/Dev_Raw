@@ -13,7 +13,7 @@ import TagPage from "./pages/TagPage";
 
 export default function App() {
   return (
-    <>
+    <div className="overflow-x-hidden w-full min-h-screen flex flex-col">
       <TopNavBar />
       <div className="flex flex-1 w-full">
         <div className="hidden lg:block">
@@ -37,6 +37,6 @@ export default function App() {
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 }
