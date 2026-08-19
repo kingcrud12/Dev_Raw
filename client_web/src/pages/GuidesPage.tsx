@@ -59,7 +59,7 @@ export default function GuidesPage() {
                 <h2 className="font-headline-md text-headline-md text-on-background mb-3 group-hover:underline decoration-[3px] underline-offset-4">
                   {guide.title}
                 </h2>
-                <p className="font-body-md text-body-md text-on-secondary-container mb-6 opacity-80 text-black">
+                <p className="font-body-md text-body-md text-on-secondary-container mb-6 opacity-80 text-black line-clamp-3">
                   {guide.description}
                 </p>
                 <button className="bg-background text-on-background neo-border px-6 py-2 font-label-mono text-sm uppercase font-bold neo-shadow-sm neo-btn">

@@ -54,7 +54,7 @@ export default function LatestArticles() {
                 ))}
               </div>
               <h3 className="font-headline-md text-headline-md text-on-background mb-2 group-hover:underline decoration-[3px] underline-offset-4">{article.title}</h3>
-              <p className="font-body-md text-body-md text-on-surface-variant mb-4">{article.description}</p>
+              <p className="font-body-md text-body-md text-on-surface-variant mb-4 line-clamp-3">{article.description}</p>
               <div className="mt-auto flex items-center gap-4 font-label-mono text-sm text-on-surface-variant">
                 <span className="flex items-center gap-1"><span className="material-symbols-outlined text-sm">schedule</span> {article.readingTime || 5} min</span>
               </div>

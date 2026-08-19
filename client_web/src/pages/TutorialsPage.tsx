@@ -55,7 +55,7 @@ export default function TutorialsPage() {
               <h3 className="font-headline-md text-headline-md text-on-background mb-2 group-hover:text-primary transition-colors">
                 {tutorial.title}
               </h3>
-              <p className="font-body-md text-body-md text-on-surface-variant mb-4 flex-1">
+              <p className="font-body-md text-body-md text-on-surface-variant mb-4 flex-1 line-clamp-4">
                 {tutorial.description}
               </p>
               <div className="flex items-center gap-2 font-label-mono text-sm text-on-surface-variant border-t-[3px] border-on-background pt-4">

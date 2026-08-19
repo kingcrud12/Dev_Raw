@@ -109,10 +109,12 @@ export default function SearchBar() {
             </div>
           )}
 
-          {!isLoading && results.map((item) => (
+          {!isLoading && results.map((item) => {
+            const pathPrefix = item.type === 'tutorial' ? 'tutoriels' : `${item.type}s`;
+            return (
             <Link 
               key={item.id} 
-              to={`/${item.type}s/${item.slug}`} 
+              to={`/${pathPrefix}/${item.slug}`} 
               className="p-4 border-b-[3px] border-on-background last:border-b-0 hover:bg-surface-variant transition-colors block"
               onClick={() => setIsExpanded(false)}
             >
@@ -128,7 +130,8 @@ export default function SearchBar() {
                 {item.description}
               </p>
             </Link>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>
