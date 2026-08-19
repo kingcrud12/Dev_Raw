@@ -15,12 +15,12 @@ export default function App() {
   return (
     <div className="overflow-x-hidden w-full min-h-screen flex flex-col">
       <TopNavBar />
-      <div className="flex flex-1 w-full">
+      <div className="flex flex-1 w-full min-w-0">
         <div className="hidden lg:block">
           <SideNavBar />
         </div>
         
-        <div className="flex-1 flex justify-start lg:ml-12">
+        <div className="flex-1 flex justify-start lg:ml-12 min-w-0">
           <main className="w-full flex flex-col px-gutter gap-stack-lg min-w-0 pt-stack-lg pb-stack-md max-w-[800px]">
           <Routes>
             <Route path="/" element={<HomePage />} />
