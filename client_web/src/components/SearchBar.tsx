@@ -38,7 +38,7 @@ export default function SearchBar() {
     const delayDebounceFn = setTimeout(async () => {
       setIsLoading(true);
       try {
-        const url = import.meta.env.VITE_API_URL || '/api';
+        const url = import.meta.env.VITE_API_BASE_URL || '/api';
         const res = await fetch(`${url}/search?q=${encodeURIComponent(query)}`);
         if (res.ok) {
           const data = await res.json();
@@ -74,7 +74,9 @@ export default function SearchBar() {
           className="flex-1 bg-transparent border-none outline-none font-label-mono text-sm px-2 text-on-background placeholder:text-on-surface-variant w-full"
           value={query}
           onChange={(e) => {
-            const sanitized = e.target.value.replace(/[<>]/g, '');
+            const sanitized = e.target.value
+              .replace(/[<>;"'\\*]/g, '')
+              .replace(/\b(select|insert|update|delete|drop|union|alter|exec)\b/ig, '');
             setQuery(sanitized);
             if (!isExpanded) setIsExpanded(true);
           }}

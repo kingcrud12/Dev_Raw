@@ -4,7 +4,9 @@ export default function NewsletterPage() {
   const [email, setEmail] = useState('');
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const sanitized = e.target.value.replace(/[<>]/g, '');
+    const sanitized = e.target.value
+      .replace(/[<>;"'\\*]/g, '')
+      .replace(/\b(select|insert|update|delete|drop|union|alter|exec)\b/ig, '');
     setEmail(sanitized);
   };
   return (

@@ -21,7 +21,7 @@ export default function ContentPage() {
   useEffect(() => {
     const fetchContent = async () => {
       try {
-        const url = import.meta.env.VITE_API_URL || '/api';
+        const url = import.meta.env.VITE_API_BASE_URL || '/api';
         const res = await fetch(`${url}/contents/${slug}`);
         if (!res.ok) {
           if (res.status === 404) {
