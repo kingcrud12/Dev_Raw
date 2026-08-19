@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"os"
+	"strings"
 )
 
 func main() {
@@ -22,16 +23,39 @@ func main() {
 
 	r := gin.Default()
 
-	// CORS Middleware (simple version for local dev)
+	// CORS Middleware (Dynamic Multi-Origin)
 	r.Use(func(c *gin.Context) {
-		frontendURL := os.Getenv("FRONTEND_URL")
-		if frontendURL == "" {
-			frontendURL = "http://localhost:5174"
+		origin := c.Request.Header.Get("Origin")
+		
+		allowedOrigins := []string{
+			"http://localhost:5173",
+			"http://localhost:5174",
 		}
-		c.Writer.Header().Set("Access-Control-Allow-Origin", frontendURL)
-		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
-		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
-		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT, DELETE")
+
+		// Support multiple origins from FRONTEND_URL (comma separated)
+		if frontendURL := os.Getenv("FRONTEND_URL"); frontendURL != "" {
+			allowedOrigins = append(allowedOrigins, strings.Split(frontendURL, ",")...)
+		}
+
+		// Support ALLOWED_ORIGINS
+		if envOrigins := os.Getenv("ALLOWED_ORIGINS"); envOrigins != "" {
+			allowedOrigins = append(allowedOrigins, strings.Split(envOrigins, ",")...)
+		}
+
+		isAllowed := false
+		for _, o := range allowedOrigins {
+			if origin == o {
+				isAllowed = true
+				break
+			}
+		}
+
+		if isAllowed {
+			c.Writer.Header().Set("Access-Control-Allow-Origin", origin)
+			c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+			c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+			c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT, DELETE")
+		}
 
 		if c.Request.Method == "OPTIONS" {
 			c.AbortWithStatus(204)
