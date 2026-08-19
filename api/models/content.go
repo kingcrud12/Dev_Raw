@@ -19,7 +19,8 @@ type Content struct {
 	ImageUrl    string      `json:"imageUrl"`
 	Tags        string      `json:"tags"`
 	ContentText string      `json:"contentText"`
-	ReadingTime int         `json:"readingTime"`
-	AuthorID    uuid.UUID   `json:"-"`
-	Author      User        `gorm:"foreignKey:AuthorID" json:"-"`
+	ReadingTime   int         `json:"readingTime"`
+	OrderPosition int         `json:"orderPosition"`
+	AuthorID      uuid.UUID   `json:"-"`
+	Author        User        `gorm:"foreignKey:AuthorID" json:"-"`
 }

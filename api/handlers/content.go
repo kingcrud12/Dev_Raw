@@ -34,7 +34,7 @@ func GetAllContent(c *gin.Context) {
 		query = query.Where("type = ?", contentType)
 	}
 
-	if err := query.Find(&contents).Error; err != nil {
+	if err := query.Order("order_position ASC, created_at DESC").Find(&contents).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch content"})
 		return
 	}
@@ -52,7 +52,7 @@ func GetMyContent(c *gin.Context) {
 		query = query.Where("author_id = ?", userID)
 	}
 
-	if err := query.Find(&contents).Error; err != nil {
+	if err := query.Order("order_position ASC, created_at DESC").Find(&contents).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch content"})
 		return
 	}
@@ -221,4 +221,20 @@ func GetContentBySlug(c *gin.Context) {
 	}
 	
 	c.JSON(http.StatusOK, content)
+}
+
+func ReorderContents(c *gin.Context) {
+	var body struct {
+		IDs []string `json:"ids"`
+	}
+	if err := c.ShouldBindJSON(&body); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body"})
+		return
+	}
+
+	for i, id := range body.IDs {
+		database.DB.Model(&models.Content{}).Where("id = ?", id).Update("order_position", i)
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Reordered successfully"})
 }

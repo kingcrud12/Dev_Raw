@@ -77,7 +77,7 @@ export default function TagPage() {
         <div className="p-8 text-center font-label-mono text-on-surface-variant">Aucun article trouvé pour cette catégorie.</div>
       ) : (
         <div className="flex flex-col gap-6">
-          {articles.map((article) => (
+          {articles.map((article, idx) => (
             <Link key={article.id} to={`/${article.type}s/${article.slug}`} className="block outline-none focus:ring-4 focus:ring-primary">
               <article className="bg-surface-container-lowest neo-border neo-shadow-sm p-4 flex flex-col md:flex-row gap-6 group hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_#1A1A1A] transition-all">
               {article.imageUrl && (

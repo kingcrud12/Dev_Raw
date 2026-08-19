@@ -91,6 +91,7 @@ func main() {
 	{
 		protected.GET("/contents", handlers.GetMyContent)
 		protected.POST("/contents", handlers.CreateContent)
+		protected.PUT("/contents/reorder", handlers.ReorderContents)
 		protected.PUT("/contents/:id", handlers.UpdateContent)
 		protected.DELETE("/contents/:id", handlers.DeleteContent)
 	}

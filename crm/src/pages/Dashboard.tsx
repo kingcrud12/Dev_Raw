@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import api from '../api';
 import { useAuth } from '../AuthContext';
+import { useDragAndDrop } from '../hooks/useDragAndDrop';
 
 interface Content {
   id: string;
@@ -14,7 +15,7 @@ interface Content {
 
 export default function Dashboard() {
   const { role, logout } = useAuth();
-  const [contents, setContents] = useState<Content[]>([]);
+  const [apiContents, setApiContents] = useState<Content[]>([]);
   const [error, setError] = useState('');
 
   // Form states
@@ -34,13 +35,31 @@ export default function Dashboard() {
   const fetchContents = async () => {
     try {
       const res = await api.get('/crm/contents');
-      setContents(res.data);
+      setApiContents(res.data);
     } catch (err: any) {
       if (err.response?.status === 403) {
         setError("Vous n'avez pas le rôle 'editor'.");
       }
     }
   };
+
+  const handleReorder = async (newItems: Content[]) => {
+    try {
+      const ids = newItems.map(c => c.id);
+      await api.put('/crm/contents/reorder', { ids });
+    } catch (err) {
+      console.error('Failed to save order:', err);
+      fetchContents(); // Revert on failure
+    }
+  };
+
+  const { 
+    items: contents, 
+    draggedIdx, 
+    handleDragStart, 
+    handleDragOver, 
+    handleDragEnd 
+  } = useDragAndDrop<Content>(apiContents, handleReorder);
 
   useEffect(() => {
     if (role === 'editor' || role === 'admin') {
@@ -244,12 +263,22 @@ export default function Dashboard() {
       </h2>
       {error && <div className="bg-error text-on-error p-4 neo-border mb-4">{error}</div>}
       <div className="flex flex-col gap-4 pb-12">
-        {contents.map(c => (
-          <div key={c.id} className="bg-surface-container-lowest p-4 neo-border flex justify-between items-center group hover:bg-surface-variant transition-colors">
-            <div>
-              <span className="bg-secondary-container px-2 py-1 text-xs font-label-mono neo-border inline-block mb-2 uppercase">{c.type}</span>
-              <h3 className="font-bold text-lg">{c.title}</h3>
-              <p className="text-on-surface-variant text-sm truncate max-w-md">{c.description}</p>
+        {contents.map((c, idx) => (
+          <div 
+            key={c.id} 
+            draggable
+            onDragStart={(e) => handleDragStart(e, idx)}
+            onDragOver={(e) => handleDragOver(e, idx)}
+            onDragEnd={handleDragEnd}
+            className={`bg-surface-container-lowest p-4 neo-border flex justify-between items-center group hover:bg-surface-variant transition-all cursor-grab active:cursor-grabbing ${draggedIdx === idx ? 'opacity-50' : 'opacity-100'}`}
+          >
+            <div className="flex gap-4 items-center">
+              <span className="material-symbols-outlined text-on-surface-variant cursor-grab opacity-50 group-hover:opacity-100">drag_indicator</span>
+              <div>
+                <span className="bg-secondary-container px-2 py-1 text-xs font-label-mono neo-border inline-block mb-2 uppercase">{c.type}</span>
+                <h3 className="font-bold text-lg">{c.title}</h3>
+                <p className="text-on-surface-variant text-sm truncate max-w-md">{c.description}</p>
+              </div>
             </div>
             <div className="flex flex-col gap-2">
               <button onClick={() => handleEdit(c)} className="text-primary border-[3px] border-transparent hover:border-primary px-3 py-1 bg-primary/10 font-bold text-sm transition-all">Modifier</button>
