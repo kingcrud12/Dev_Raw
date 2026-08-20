@@ -1,0 +1,36 @@
+name: Déploiement Continue (VPS)
+
+on:
+  push:
+    branches:
+      - main # Le déploiement s'exécute à chaque push sur la branche 'main'
+
+jobs:
+  deploy:
+    name: Déploiement sur le VPS
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 🚀 Connexion SSH et Déploiement
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            # 1. On se déplace dans le dossier du projet
+            cd ~/apps/blog
+            
+            # 2. On récupère la toute dernière version du code depuis GitHub
+            git pull origin main
+            
+            # 3. On rentre dans le dossier de l'API Go
+            cd api
+            
+            # 4. On re-compile l'application Go
+            go build -o api main.go
+            
+            # 5. On redémarre le processus PM2 avec le nouveau code compilé
+            pm2 restart api-blog
+            
+            echo " Déploiement de l'API terminé avec succès !"
