@@ -11,7 +11,7 @@ export default function Footer() {
         <a className="hover:text-primary underline" href="#">Contact</a>
       </div>
       <div className="font-body-md text-body-md text-on-surface">
-        © 2024 DevRaw. Conçu pour les développeurs.
+        © 2026 DevRaw. Conçu pour les développeurs.
       </div>
     </footer>
   );
