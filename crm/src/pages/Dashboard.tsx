@@ -53,14 +53,6 @@ export default function Dashboard() {
     }
   };
 
-  const { 
-    items: contents, 
-    draggedIdx, 
-    handleDragStart, 
-    handleDragOver, 
-    handleDragEnd 
-  } = useDragAndDrop<Content>(apiContents, handleReorder);
-
   useEffect(() => {
     if (role === 'editor' || role === 'admin') {
       fetchContents();
@@ -258,35 +250,33 @@ export default function Dashboard() {
 
   const renderList = () => (
     <div className="h-full overflow-y-auto pl-2">
-      <h2 className="font-headline-md font-bold mb-4">
+      <h2 className="font-headline-md font-bold mb-6">
         {role === 'admin' ? 'Tous les Contenus' : 'Mes Contenus'}
       </h2>
       {error && <div className="bg-error text-on-error p-4 neo-border mb-4">{error}</div>}
-      <div className="flex flex-col gap-4 pb-12">
-        {contents.map((c, idx) => (
-          <div 
-            key={c.id} 
-            draggable
-            onDragStart={(e) => handleDragStart(e, idx)}
-            onDragOver={(e) => handleDragOver(e, idx)}
-            onDragEnd={handleDragEnd}
-            className={`bg-surface-container-lowest p-4 neo-border flex justify-between items-center group hover:bg-surface-variant transition-all cursor-grab active:cursor-grabbing ${draggedIdx === idx ? 'opacity-50' : 'opacity-100'}`}
-          >
-            <div className="flex gap-4 items-center">
-              <span className="material-symbols-outlined text-on-surface-variant cursor-grab opacity-50 group-hover:opacity-100">drag_indicator</span>
-              <div>
-                <span className="bg-secondary-container px-2 py-1 text-xs font-label-mono neo-border inline-block mb-2 uppercase">{c.type}</span>
-                <h3 className="font-bold text-lg">{c.title}</h3>
-                <p className="text-on-surface-variant text-sm truncate max-w-md">{c.description}</p>
-              </div>
-            </div>
-            <div className="flex flex-col gap-2">
-              <button onClick={() => handleEdit(c)} className="text-primary border-[3px] border-transparent hover:border-primary px-3 py-1 bg-primary/10 font-bold text-sm transition-all">Modifier</button>
-              <button onClick={() => handleDelete(c.id)} className="text-error border-[3px] border-transparent hover:border-error px-3 py-1 bg-error/10 font-bold text-sm transition-all">Supprimer</button>
-            </div>
-          </div>
-        ))}
-        {contents.length === 0 && <p className="text-on-surface-variant">Aucun contenu trouvé.</p>}
+      <div className="flex flex-col pb-12">
+        <DraggableContentGroup 
+          title="Articles" 
+          items={apiContents.filter(c => c.type === 'article')} 
+          onReorder={handleReorder} 
+          onEdit={handleEdit} 
+          onDelete={handleDelete} 
+        />
+        <DraggableContentGroup 
+          title="Guides" 
+          items={apiContents.filter(c => c.type === 'guide')} 
+          onReorder={handleReorder} 
+          onEdit={handleEdit} 
+          onDelete={handleDelete} 
+        />
+        <DraggableContentGroup 
+          title="Tutoriels" 
+          items={apiContents.filter(c => c.type === 'tutorial')} 
+          onReorder={handleReorder} 
+          onEdit={handleEdit} 
+          onDelete={handleDelete} 
+        />
+        {apiContents.length === 0 && <p className="text-on-surface-variant">Aucun contenu trouvé.</p>}
       </div>
     </div>
   );
@@ -352,6 +342,60 @@ export default function Dashboard() {
       <div className="flex flex-col gap-8 lg:hidden flex-1 overflow-y-auto pb-12">
         {renderForm()}
         {renderList()}
+      </div>
+    </div>
+  );
+}
+
+function DraggableContentGroup({ 
+  title, 
+  items, 
+  onReorder, 
+  onEdit, 
+  onDelete 
+}: { 
+  title: string;
+  items: Content[];
+  onReorder: (newItems: Content[]) => void;
+  onEdit: (c: Content) => void;
+  onDelete: (id: string) => void;
+}) {
+  const { 
+    items: localItems, 
+    draggedIdx, 
+    handleDragStart, 
+    handleDragOver, 
+    handleDragEnd 
+  } = useDragAndDrop<Content>(items, onReorder);
+
+  if (items.length === 0) return null;
+
+  return (
+    <div className="mb-8">
+      <h3 className="font-headline-sm font-bold mb-4 bg-secondary-container text-on-secondary-container px-3 py-1 inline-block neo-border uppercase">{title}</h3>
+      <div className="flex flex-col gap-4">
+        {localItems.map((c, idx) => (
+          <div 
+            key={c.id} 
+            draggable
+            onDragStart={(e) => handleDragStart(e, idx)}
+            onDragOver={(e) => handleDragOver(e, idx)}
+            onDragEnd={handleDragEnd}
+            className={`bg-surface-container-lowest p-4 neo-border flex justify-between items-center group hover:bg-surface-variant transition-all cursor-grab active:cursor-grabbing ${draggedIdx === idx ? 'opacity-50' : 'opacity-100'}`}
+          >
+            <div className="flex gap-4 items-center">
+              <span className="material-symbols-outlined text-on-surface-variant cursor-grab opacity-50 group-hover:opacity-100">drag_indicator</span>
+              <div>
+                <h3 className="font-bold text-lg">{c.title}</h3>
+                <p className="text-on-surface-variant text-sm truncate max-w-md">{c.description}</p>
+              </div>
+            </div>
+            <div className="flex flex-col gap-2">
+              <button onClick={() => onEdit(c)} className="text-primary border-[3px] border-transparent hover:border-primary px-3 py-1 bg-primary/10 font-bold text-sm transition-all">Modifier</button>
+              <button onClick={() => onDelete(c.id)} className="text-error border-[3px] border-transparent hover:border-error px-3 py-1 bg-error/10 font-bold text-sm transition-all">Supprimer</button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
