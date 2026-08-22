@@ -6,12 +6,17 @@ interface Tutorial {
   type: string;
   slug: string;
   title: string;
+  titleEn?: string;
   description: string;
+  descriptionEn?: string;
   tags: string;
   readingTime: number;
 }
 
+import { useLanguage } from '../context/LanguageContext';
+
 export default function TutorialsPage() {
+  const { language, t } = useLanguage();
   const [tutorials, setTutorials] = useState<Tutorial[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -37,13 +42,13 @@ export default function TutorialsPage() {
   return (
     <section className="flex flex-col gap-stack-md pt-stack-md">
       <h1 className="font-headline-xl text-headline-xl text-on-background border-b-[3px] border-on-background pb-4 mb-4">
-        Tutoriels Pratiques
+        {t('tutorials')}
       </h1>
       
       {loading ? (
         <div className="p-8 text-center font-label-mono animate-pulse">Chargement...</div>
       ) : tutorials.length === 0 ? (
-        <div className="p-8 text-center font-label-mono text-on-surface-variant">Aucun tutoriel n'a été publié pour le moment.</div>
+        <div className="p-8 text-center font-label-mono text-on-surface-variant">{t('noResults')}</div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {tutorials.map((tutorial, idx) => (
@@ -53,13 +58,13 @@ export default function TutorialsPage() {
                 {tutorial.tags?.split(',')[0] || "TUTORIEL"}
               </div>
               <h3 className="font-headline-md text-headline-md text-on-background mb-2 group-hover:text-primary transition-colors">
-                {tutorial.title}
+                {(language === 'en' && tutorial.titleEn) ? tutorial.titleEn : tutorial.title}
               </h3>
               <p className="font-body-md text-body-md text-on-surface-variant mb-4 flex-1 line-clamp-4">
-                {tutorial.description}
+                {(language === 'en' && tutorial.descriptionEn) ? tutorial.descriptionEn : tutorial.description}
               </p>
               <div className="flex items-center gap-2 font-label-mono text-sm text-on-surface-variant border-t-[3px] border-on-background pt-4">
-                <span className="material-symbols-outlined text-sm">schedule</span> {tutorial.readingTime || 5} min de lecture
+                <span className="material-symbols-outlined notranslate text-sm">schedule</span> {tutorial.readingTime || 5} {t('readingTime')}
               </div>
               </article>
             </Link>

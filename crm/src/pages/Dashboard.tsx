@@ -7,7 +7,9 @@ interface Content {
   id: string;
   type: string;
   title: string;
+  titleEn?: string;
   description: string;
+  descriptionEn?: string;
   tags?: string;
   imageUrl?: string;
   readingTime?: number;
@@ -18,10 +20,12 @@ export default function Dashboard() {
   const [apiContents, setApiContents] = useState<Content[]>([]);
   const [error, setError] = useState('');
 
-  // Form states
   const [type, setType] = useState('article');
   const [title, setTitle] = useState('');
+  const [titleEn, setTitleEn] = useState('');
   const [description, setDescription] = useState('');
+  const [descriptionEn, setDescriptionEn] = useState('');
+  const [langTab, setLangTab] = useState<'fr'|'en'>('fr');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const selectionRef = useRef({ start: 0, end: 0 });
   const [tags, setTags] = useState('');
@@ -79,7 +83,9 @@ export default function Dashboard() {
     const formData = new FormData();
     formData.append('type', type);
     formData.append('title', title);
+    formData.append('titleEn', titleEn);
     formData.append('description', description);
+    formData.append('descriptionEn', descriptionEn);
     formData.append('tags', tags);
     formData.append('readingTime', readingTime.toString());
     if (image) {
@@ -108,23 +114,29 @@ export default function Dashboard() {
   const resetForm = () => {
     setEditingId(null);
     setTitle('');
+    setTitleEn('');
     setDescription('');
+    setDescriptionEn('');
     setTags('');
     setReadingTime(5);
     setImage(null);
     setExistingImageUrl(null);
     setType('article');
+    setLangTab('fr');
   };
 
   const handleEdit = (c: Content) => {
     setEditingId(c.id);
     setTitle(c.title);
+    setTitleEn(c.titleEn || '');
     setDescription(c.description);
+    setDescriptionEn(c.descriptionEn || '');
     setTags(c.tags || '');
     setReadingTime(c.readingTime || 5);
     setType(c.type || 'article');
     setImage(null);
     setExistingImageUrl(c.imageUrl || null);
+    setLangTab('fr');
   };
 
   const handleDelete = async (id: string) => {
@@ -156,13 +168,17 @@ export default function Dashboard() {
     const start = selectionRef.current.start;
     const end = selectionRef.current.end;
 
-    const text = description;
+    const text = langTab === 'fr' ? description : descriptionEn;
     const beforeText = text.substring(0, start);
     const selectedText = text.substring(start, end);
     const afterText = text.substring(end);
     const newText = beforeText + before + selectedText + after + afterText;
     
-    setDescription(newText);
+    if (langTab === 'fr') {
+      setDescription(newText);
+    } else {
+      setDescriptionEn(newText);
+    }
     
     // Update the selection ref immediately so subsequent clicks work
     const newCursorPos = start + before.length + selectedText.length;
@@ -175,8 +191,23 @@ export default function Dashboard() {
   };
 
   const renderForm = () => (
-    <div className="bg-surface-container-low p-6 neo-border neo-shadow-md h-full overflow-y-auto">
-      <h2 className="font-headline-md font-bold mb-4">{editingId ? 'Modifier Contenu' : 'Nouveau Contenu'}</h2>
+    <div className="bg-surface-container-low p-6 neo-border neo-shadow-md h-full overflow-y-auto flex flex-col">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="font-headline-md font-bold">{editingId ? 'Modifier Contenu' : 'Nouveau Contenu'}</h2>
+        <div className="flex bg-surface-container-lowest neo-border">
+          <button 
+            type="button" 
+            onClick={() => setLangTab('fr')} 
+            className={`px-4 py-1 font-bold ${langTab === 'fr' ? 'bg-primary text-on-primary' : 'hover:bg-surface-variant'}`}
+          >FR</button>
+          <div className="w-[3px] bg-on-background"></div>
+          <button 
+            type="button" 
+            onClick={() => setLangTab('en')} 
+            className={`px-4 py-1 font-bold ${langTab === 'en' ? 'bg-primary text-on-primary' : 'hover:bg-surface-variant'}`}
+          >EN</button>
+        </div>
+      </div>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div>
           <label className="block font-label-mono mb-1">Type</label>
@@ -187,12 +218,12 @@ export default function Dashboard() {
           </select>
         </div>
         <div>
-          <label className="block font-label-mono mb-1">Titre</label>
-          <input className="w-full bg-surface-container-lowest neo-border p-2 focus:bg-tertiary-container outline-none" value={title} onChange={e => setTitle(e.target.value)} required />
+          <label className="block font-label-mono mb-1">Titre ({langTab.toUpperCase()})</label>
+          <input className="w-full bg-surface-container-lowest neo-border p-2 focus:bg-tertiary-container outline-none" value={langTab === 'fr' ? title : titleEn} onChange={e => langTab === 'fr' ? setTitle(e.target.value) : setTitleEn(e.target.value)} required={langTab === 'fr'} />
         </div>
         <div>
           <div className="flex justify-between items-end mb-1">
-            <label className="block font-label-mono">Description (Markdown & HTML autorisés)</label>
+            <label className="block font-label-mono">Description ({langTab.toUpperCase()}) (Markdown & HTML autorisés)</label>
           </div>
           
           <div className="flex flex-wrap gap-2 mb-2 p-2 bg-surface-variant neo-border items-center">
@@ -203,9 +234,9 @@ export default function Dashboard() {
             ref={textareaRef}
             className="w-full bg-surface-container-lowest neo-border p-2 focus:bg-tertiary-container outline-none resize-y" 
             rows={20} 
-            value={description} 
-            onChange={e => setDescription(e.target.value)}
-            required 
+            value={langTab === 'fr' ? description : descriptionEn} 
+            onChange={e => langTab === 'fr' ? setDescription(e.target.value) : setDescriptionEn(e.target.value)}
+            required={langTab === 'fr'}
           />
           
           <div className="mt-2 text-xs text-on-surface-variant p-3 bg-secondary-container/20 border-l-[4px] border-primary">

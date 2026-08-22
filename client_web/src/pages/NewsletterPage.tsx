@@ -17,7 +17,7 @@ export default function NewsletterPage() {
         <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-secondary-container neo-border transform rotate-45 opacity-50 blur-sm"></div>
         
         <div className="w-20 h-20 bg-on-background rounded-full flex items-center justify-center mx-auto neo-shadow-sm mb-4 relative z-10">
-          <span className="material-symbols-outlined text-5xl text-primary-container" style={{ fontVariationSettings: "'FILL' 1" }}>mark_email_read</span>
+          <span className="material-symbols-outlined notranslate text-5xl text-primary-container" style={{ fontVariationSettings: "'FILL' 1" }}>mark_email_read</span>
         </div>
         
         <h1 className="font-headline-xl text-headline-xl text-on-background relative z-10">

@@ -4,7 +4,7 @@ export default function CategoryCards() {
       {/* Card 1: Flutter */}
       <article className="bg-primary-container neo-border neo-shadow-md p-6 flex flex-col justify-between min-h-[250px] group hover:-translate-y-1 transition-transform">
         <div className="flex justify-between items-start mb-4">
-          <span className="material-symbols-outlined text-4xl text-on-primary-container" style={{ fontVariationSettings: "'FILL' 1" }}>phone_iphone</span>
+          <span className="material-symbols-outlined notranslate text-4xl text-on-primary-container" style={{ fontVariationSettings: "'FILL' 1" }}>phone_iphone</span>
           <div className="bg-surface-container-lowest neo-border px-3 py-1 rounded-full text-xs font-label-mono font-bold">MOBILE</div>
         </div>
         <div>
@@ -16,7 +16,7 @@ export default function CategoryCards() {
       {/* Card 2: Node.js */}
       <article className="bg-secondary-container neo-border neo-shadow-md p-6 flex flex-col justify-between min-h-[250px] group hover:-translate-y-1 transition-transform">
         <div className="flex justify-between items-start mb-4">
-          <span className="material-symbols-outlined text-4xl text-on-secondary-container" style={{ fontVariationSettings: "'FILL' 1" }}>dns</span>
+          <span className="material-symbols-outlined notranslate text-4xl text-on-secondary-container" style={{ fontVariationSettings: "'FILL' 1" }}>dns</span>
           <div className="bg-surface-container-lowest neo-border px-3 py-1 rounded-full text-xs font-label-mono font-bold">BACKEND</div>
         </div>
         <div>
@@ -28,7 +28,7 @@ export default function CategoryCards() {
       {/* Card 3: Architecture */}
       <article className="bg-tertiary-container neo-border neo-shadow-md p-6 flex flex-col justify-between min-h-[250px] group hover:-translate-y-1 transition-transform">
         <div className="flex justify-between items-start mb-4">
-          <span className="material-symbols-outlined text-4xl text-on-tertiary-container" style={{ fontVariationSettings: "'FILL' 1" }}>schema</span>
+          <span className="material-symbols-outlined notranslate text-4xl text-on-tertiary-container" style={{ fontVariationSettings: "'FILL' 1" }}>schema</span>
           <div className="bg-surface-container-lowest neo-border px-3 py-1 rounded-full text-xs font-label-mono font-bold">SYSTÈMES</div>
         </div>
         <div>

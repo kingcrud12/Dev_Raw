@@ -7,7 +7,9 @@ interface Content {
   id: string;
   type: string;
   title: string;
+  titleEn?: string;
   description: string;
+  descriptionEn?: string;
   imageUrl?: string;
   tags?: string;
   contentText?: string;
@@ -30,7 +32,10 @@ const slugify = (text: string) => {
     .replace(/(^-|-$)/g, '');
 };
 
+import { useLanguage } from '../context/LanguageContext';
+
 export default function ContentPage() {
+  const { language, t } = useLanguage();
   const { slug } = useParams();
   const [content, setContent] = useState<Content | null>(null);
   const [loading, setLoading] = useState(true);
@@ -67,7 +72,7 @@ export default function ContentPage() {
     return (
       <div className="p-8 text-center">
         <p className="font-label-mono text-error mb-4">{error}</p>
-        <Link to="/" className="text-primary hover:underline font-bold">Retour à l'accueil</Link>
+        <Link to="/" className="text-primary hover:underline font-bold">{t('home')}</Link>
       </div>
     );
   }
@@ -83,12 +88,12 @@ export default function ContentPage() {
       </div>
 
       <h1 className="font-headline-lg text-headline-lg font-bold text-on-background">
-        {content.title}
+        {(language === 'en' && content.titleEn) ? content.titleEn : content.title}
       </h1>
 
       {(content.readingTime || 5) > 0 && (
         <p className="font-label-mono text-on-surface-variant text-sm">
-          Temps de lecture estimé : {content.readingTime || 5} min
+          {content.readingTime || 5} {t('readingTime')}
         </p>
       )}
 
@@ -154,7 +159,7 @@ export default function ContentPage() {
             )
           }}
         >
-          {content.description}
+          {(language === 'en' && content.descriptionEn) ? content.descriptionEn : content.description}
         </ReactMarkdown>
       </div>
     </article>

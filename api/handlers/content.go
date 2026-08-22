@@ -69,9 +69,13 @@ func CreateContent(c *gin.Context) {
 	}
 
 	title := c.PostForm("title")
+	titleEn := c.PostForm("titleEn")
 	contentType := c.PostForm("type")
 	description := c.PostForm("description")
+	descriptionEn := c.PostForm("descriptionEn")
 	tags := c.PostForm("tags")
+	contentText := c.PostForm("contentText")
+	contentTextEn := c.PostForm("contentTextEn")
 	readingTime, _ := strconv.Atoi(c.PostForm("readingTime"))
 	if readingTime <= 0 {
 		readingTime = 5 // default
@@ -98,14 +102,18 @@ func CreateContent(c *gin.Context) {
 	}
 
 	content := models.Content{
-		Type:        models.ContentType(contentType),
-		Slug:        generateSlug(title) + "-" + parsedUUID.String()[:6],
-		Title:       title,
-		Description: description,
-		Tags:        tags,
-		ImageUrl:    imageUrl,
-		AuthorID:    parsedUUID,
-		ReadingTime: readingTime,
+		Type:          models.ContentType(contentType),
+		Slug:          generateSlug(title) + "-" + parsedUUID.String()[:6],
+		Title:         title,
+		TitleEn:       titleEn,
+		Description:   description,
+		DescriptionEn: descriptionEn,
+		ContentText:   contentText,
+		ContentTextEn: contentTextEn,
+		Tags:          tags,
+		ImageUrl:      imageUrl,
+		AuthorID:      parsedUUID,
+		ReadingTime:   readingTime,
 	}
 
 	if err := database.DB.Create(&content).Error; err != nil {
@@ -137,9 +145,13 @@ func UpdateContent(c *gin.Context) {
 	}
 
 	content.Title = c.PostForm("title")
+	content.TitleEn = c.PostForm("titleEn")
 	content.Slug = generateSlug(content.Title) + "-" + content.AuthorID.String()[:6]
 	content.Type = models.ContentType(c.PostForm("type"))
 	content.Description = c.PostForm("description")
+	content.DescriptionEn = c.PostForm("descriptionEn")
+	content.ContentText = c.PostForm("contentText")
+	content.ContentTextEn = c.PostForm("contentTextEn")
 	content.Tags = c.PostForm("tags")
 	
 	rt, err := strconv.Atoi(c.PostForm("readingTime"))

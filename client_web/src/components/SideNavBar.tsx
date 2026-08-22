@@ -17,28 +17,28 @@ export default function SideNavBar() {
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAKbjOZFENCflJNTndzxluNjVE7yR3qpULNs7I5o-6hRqWOmOGI0ckhJ6bWNSPHs5Y8_4jQ3XsRaZSOs4jxVkxywXfHiv70GLcQyIwWrNFOB7Fu9iLVRvoMgoWZ0XTLuwDzooeyCECj6TY7sy931fEXrn9hid-T98YygWoTNnveqr4BxqBKn1FCGmmkRfq3f4AKvjUmuAMmEfSBM3DP737x3Qzviv-o6oQYNrvANvMRX-llWGgahFgNw"
           />
         </div>
-        <h2 className="font-headline-sm text-headline-sm text-primary">DevRaw</h2>
+        <h2 className="font-headline-sm text-headline-sm text-primary notranslate">DevRaw</h2>
         <p className="font-body-md text-body-md text-on-surface-variant">Explorations techniques approfondies.</p>
       </div>
       <nav className="flex flex-col gap-2 flex-1 font-label-mono text-label-mono">
         <NavLink className={getNavClass} to="/" end>
-          <span className="material-symbols-outlined">article</span>
+          <span className="material-symbols-outlined notranslate">article</span>
           Derniers Articles
         </NavLink>
         <NavLink className={getNavClass} to="/tags/populaire">
-          <span className="material-symbols-outlined">trending_up</span>
+          <span className="material-symbols-outlined notranslate">trending_up</span>
           Populaire
         </NavLink>
         <NavLink className={getNavClass} to="/tags/architecture">
-          <span className="material-symbols-outlined">architecture</span>
+          <span className="material-symbols-outlined notranslate">architecture</span>
           Architecture Système
         </NavLink>
         <NavLink className={getNavClass} to="/tags/rust-go">
-          <span className="material-symbols-outlined">terminal</span>
+          <span className="material-symbols-outlined notranslate">terminal</span>
           Rust & Go
         </NavLink>
         <NavLink className={getNavClass} to="/tags/open-source">
-          <span className="material-symbols-outlined">code</span>
+          <span className="material-symbols-outlined notranslate">code</span>
           Open Source
         </NavLink>
       </nav>

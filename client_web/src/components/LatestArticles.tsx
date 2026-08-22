@@ -6,14 +6,19 @@ interface Article {
   type: string;
   slug: string;
   title: string;
+  titleEn?: string;
   description: string;
+  descriptionEn?: string;
   tags: string;
   readingTime: number;
   imageUrl: string;
   createdAt: string;
 }
 
+import { useLanguage } from '../context/LanguageContext';
+
 export default function LatestArticles() {
+  const { language, t } = useLanguage();
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -41,12 +46,12 @@ export default function LatestArticles() {
 
   return (
     <section className="flex flex-col gap-4">
-      <h2 className="font-headline-md text-headline-md text-on-background border-b-[3px] border-on-background pb-2">Récemment Publié</h2>
+      <h2 className="font-headline-md text-headline-md text-on-background border-b-[3px] border-on-background pb-2">{t('latestArticles')}</h2>
       
       {loading ? (
         <div className="p-8 text-center font-label-mono animate-pulse">Chargement...</div>
       ) : articles.length === 0 ? (
-        <div className="p-8 text-center font-label-mono text-on-surface-variant">Aucun article publié récemment (moins de 2 semaines).</div>
+        <div className="p-8 text-center font-label-mono text-on-surface-variant">{t('noResults')}</div>
       ) : (
         articles.map((article) => (
           <Link key={article.id} to={`/articles/${article.slug}`} className="block outline-none focus:ring-4 focus:ring-primary">
@@ -62,10 +67,10 @@ export default function LatestArticles() {
                   <span key={tag} className="bg-primary-container neo-border px-2 py-0.5 rounded-full text-xs font-label-mono font-bold uppercase">{tag.trim()}</span>
                 ))}
               </div>
-              <h3 className="font-headline-md text-headline-md text-on-background mb-2 group-hover:underline decoration-[3px] underline-offset-4">{article.title}</h3>
-              <p className="font-body-md text-body-md text-on-surface-variant mb-4 line-clamp-3">{article.description}</p>
+              <h3 className="font-headline-md text-headline-md text-on-background mb-2 group-hover:underline decoration-[3px] underline-offset-4">{(language === 'en' && article.titleEn) ? article.titleEn : article.title}</h3>
+              <p className="font-body-md text-body-md text-on-surface-variant mb-4 line-clamp-3">{(language === 'en' && article.descriptionEn) ? article.descriptionEn : article.description}</p>
               <div className="mt-auto flex items-center gap-4 font-label-mono text-sm text-on-surface-variant">
-                <span className="flex items-center gap-1"><span className="material-symbols-outlined text-sm">schedule</span> {article.readingTime || 5} min</span>
+                <span className="flex items-center gap-1"><span className="material-symbols-outlined notranslate text-sm">schedule</span> {article.readingTime || 5} {t('readingTime')}</span>
               </div>
             </div>
             </article>

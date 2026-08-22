@@ -6,24 +6,41 @@ interface Article {
   type: string;
   slug: string;
   title: string;
+  titleEn?: string;
   description: string;
+  descriptionEn?: string;
   tags: string;
   readingTime: number;
   imageUrl: string;
 }
 
-const getPageInfo = (tag: string) => {
+const getPageInfo = (tag: string, language: 'fr'|'en') => {
   switch (tag) {
     case 'architecture':
-      return { title: 'Architecture', desc: "Tous les articles traitant d'architecture logicielle et système." };
+      return { 
+        title: 'Architecture', 
+        desc: language === 'en' ? "All articles about software and system architecture." : "Tous les articles traitant d'architecture logicielle et système." 
+      };
     case 'rust-go':
-      return { title: 'Rust & Go', desc: "Performances et concurrence : tout sur Rust et Golang." };
+      return { 
+        title: 'Rust & Go', 
+        desc: language === 'en' ? "Performance and concurrency: all about Rust and Golang." : "Performances et concurrence : tout sur Rust et Golang." 
+      };
     case 'open-source':
-      return { title: 'Open Source', desc: "L'actualité et les projets autour du mouvement Open Source." };
+      return { 
+        title: 'Open Source', 
+        desc: language === 'en' ? "News and projects around the Open Source movement." : "L'actualité et les projets autour du mouvement Open Source." 
+      };
     case 'populaire':
-      return { title: 'Populaires', desc: "Les articles les plus plébiscités par nos lecteurs." };
+      return { 
+        title: language === 'en' ? 'Popular' : 'Populaires', 
+        desc: language === 'en' ? "The most acclaimed articles by our readers." : "Les articles les plus plébiscités par nos lecteurs." 
+      };
     default:
-      return { title: `Tag : ${tag}`, desc: `Articles correspondant au tag ${tag}` };
+      return { 
+        title: `Tag : ${tag}`, 
+        desc: language === 'en' ? `Articles matching the tag ${tag}` : `Articles correspondant au tag ${tag}` 
+      };
   }
 };
 
@@ -38,13 +55,16 @@ const matchTag = (articleTags: string = "", targetTag: string) => {
   return tags.some(t => t === targetTag.toLowerCase());
 };
 
+import { useLanguage } from '../context/LanguageContext';
+
 export default function TagPage() {
+  const { language, t } = useLanguage();
   const { tag } = useParams<{ tag: string }>();
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
 
   const safeTag = tag || '';
-  const pageInfo = getPageInfo(safeTag);
+  const pageInfo = getPageInfo(safeTag, language);
 
   useEffect(() => {
     const url = import.meta.env.VITE_API_BASE_URL || '/api';
@@ -74,7 +94,7 @@ export default function TagPage() {
       {loading ? (
         <div className="p-8 text-center font-label-mono animate-pulse">Chargement...</div>
       ) : articles.length === 0 ? (
-        <div className="p-8 text-center font-label-mono text-on-surface-variant">Aucun article trouvé pour cette catégorie.</div>
+        <div className="p-8 text-center font-label-mono text-on-surface-variant">{t('noResults')}</div>
       ) : (
         <div className="flex flex-col gap-6">
           {articles.map((article) => (
@@ -91,10 +111,10 @@ export default function TagPage() {
                     <span key={t} className="bg-primary-container neo-border px-2 py-0.5 rounded-full text-xs font-label-mono font-bold uppercase">{t.trim()}</span>
                   ))}
                 </div>
-                <h3 className="font-headline-md text-headline-md text-on-background mb-2 group-hover:underline decoration-[3px] underline-offset-4">{article.title}</h3>
-                <p className="font-body-md text-body-md text-on-surface-variant mb-4 line-clamp-3">{article.description}</p>
+                <h3 className="font-headline-md text-headline-md text-on-background mb-2 group-hover:underline decoration-[3px] underline-offset-4">{(language === 'en' && article.titleEn) ? article.titleEn : article.title}</h3>
+                <p className="font-body-md text-body-md text-on-surface-variant mb-4 line-clamp-3">{(language === 'en' && article.descriptionEn) ? article.descriptionEn : article.description}</p>
                 <div className="mt-auto flex items-center gap-4 font-label-mono text-sm text-on-surface-variant">
-                  <span className="flex items-center gap-1"><span className="material-symbols-outlined text-sm">schedule</span> {article.readingTime || 5} min</span>
+                  <span className="flex items-center gap-1"><span className="material-symbols-outlined notranslate text-sm">schedule</span> {article.readingTime || 5} {t('readingTime')}</span>
                 </div>
               </div>
               </article>

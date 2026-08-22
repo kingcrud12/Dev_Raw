@@ -65,7 +65,7 @@ export default function SearchBar() {
           className="w-10 h-10 flex-shrink-0 flex items-center justify-center bg-transparent border-none outline-none cursor-pointer"
           onClick={() => setIsExpanded(true)}
         >
-          <span className="material-symbols-outlined text-on-background">search</span>
+          <span className="material-symbols-outlined notranslate text-on-background">search</span>
         </button>
         
         <input 
@@ -89,7 +89,7 @@ export default function SearchBar() {
             className="w-8 h-8 mr-1 flex-shrink-0 flex items-center justify-center bg-transparent border-none outline-none cursor-pointer"
             onClick={() => setQuery('')}
           >
-            <span className="material-symbols-outlined text-on-surface-variant text-sm hover:text-error transition-colors">close</span>
+            <span className="material-symbols-outlined notranslate text-on-surface-variant text-sm hover:text-error transition-colors">close</span>
           </button>
         )}
       </div>
