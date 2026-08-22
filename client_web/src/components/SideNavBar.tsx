@@ -48,10 +48,10 @@ export default function SideNavBar() {
         </button>
         <div className="flex flex-col gap-2 font-label-mono text-label-mono text-xs border-t-[3px] border-on-background pt-4">
           <a className="flex items-center gap-2 text-on-surface-variant hover:text-primary" href="#">
-            <span className="material-symbols-outlined text-sm">settings</span> Paramètres
+            <span className="material-symbols-outlined notranslate text-sm">settings</span> Paramètres
           </a>
           <a className="flex items-center gap-2 text-on-surface-variant hover:text-primary" href="#">
-            <span className="material-symbols-outlined text-sm">menu_book</span> Documentation
+            <span className="material-symbols-outlined notranslate text-sm">menu_book</span> Documentation
           </a>
         </div>
       </div>
